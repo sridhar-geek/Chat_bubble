@@ -14,10 +14,11 @@ import {
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useTransition } from "react";
-
+import { useRouter } from "next/navigation";
 import FormFeild from "@/components/FormFeild";
 import { axiosInstance } from "@/lib/utils";
 import Spinner from "@/components/Spinner";
+import { motion } from "framer-motion";
 
 // Zod Schema
 const formSchema = z
@@ -41,7 +42,9 @@ export default function RegisterPage() {
   //  Hide and unHide passwords
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState("");
+  const router = useRouter();
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
 
@@ -101,11 +104,11 @@ export default function RegisterPage() {
         });
         if (response.status === 201) {
           const { user } = response.data;
-          toast({
-            title: "Registration Successful",
-            description: `${user.userName}, your request is under process.`,
-            variant: "default",
-          });
+          setDialogMessage(
+            `${user.userName}, your registration was successful! 
+             an email is send to your ${user.email}`
+          );
+          setIsDialogOpen(true);
           form.reset();
         } else {
           const errorData = response.data;
@@ -123,9 +126,45 @@ export default function RegisterPage() {
       }
     });
   }
+  // Cl9se the dialog
+  const closeDialog = () => {
+    setIsDialogOpen(false);
+    router.push("/");
+  };
 
   return (
-    <div className="h-screen flex items-center justify-center">
+    <div className="h-screen flex items-center justify-center relative">
+      {isDialogOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-10 flex items-center justify-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-[90%] max-w-md relative"
+          >
+            <button
+              onClick={closeDialog}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 dark:hover:text-white"
+            >
+              ✖
+            </button>
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
+              Success!
+            </h2>
+            <p className="mt-2 text-gray-600 dark:text-gray-300">
+              {" "}
+              {dialogMessage}
+            </p>
+            <Button
+              onClick={closeDialog}
+              className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              Go to Home
+            </Button>
+          </motion.div>
+        </div>
+      )}{" "}
       <Card className="w-[350px]">
         <CardHeader>
           <CardTitle>Register</CardTitle>
@@ -133,7 +172,7 @@ export default function RegisterPage() {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form  onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               {formInputFeilds.map((inputFeild) => (
                 <FormFeild
                   key={inputFeild.label}
