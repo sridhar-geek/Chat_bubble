@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 
 interface AuthContextType {
@@ -12,22 +12,30 @@ interface AuthContextType {
   }) => void;
   clearAuth: () => void;
 }
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [auth, setAuthState] = useState(() => {
-    const token = localStorage.getItem("accessToken");
+  const [auth, setAuthState] = useState({
+    user: { role: null, id: null },
+    accessToken:  null,
+  });
+
+  useEffect(() => {
+    const token =
+      typeof window !== "undefined"
+        ? localStorage.getItem("accessToken")
+        : null;
     if (token) {
       const decodedToken: { role: string; sub: string } = jwtDecode(token);
-      return {
+      setAuthState({
         user: { role: decodedToken.role, id: decodedToken.sub },
         accessToken: token,
-      };
+      });
     }
-    return { user: { role: null, id: null }, accessToken: null };
-  });
+  }, []);
 
   const setAuth = (newAuth: {
     user: { role: string | null; id: string | null };
