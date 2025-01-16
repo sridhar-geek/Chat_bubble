@@ -12,10 +12,11 @@ import { Control } from "react-hook-form";
 import { Button } from "./ui/button";
 import { Eye, EyeOff } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
+import { FieldValues, ControllerRenderProps } from "react-hook-form";
 
 
 interface CustomProps {
-  control: Control<any>;
+  control: Control<FeildValues>;
   label: string;
   name: string;
   type: string;
@@ -27,7 +28,7 @@ interface CustomProps {
 
 
 // Render the input feild based on the condition
-const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
+const RenderInput = ({ field, props }: { field: ControllerRenderProps<FeildValues, string>; props: CustomProps }) => {
   switch (props.type) {
     case "password":
       return (
