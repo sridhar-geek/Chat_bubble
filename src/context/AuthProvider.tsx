@@ -13,14 +13,19 @@ interface AuthContextType {
   clearAuth: () => void;
 }
 
+interface AuthState {
+  user: { role: string | null; id: string | null };
+  accessToken: string | null;
+}
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [auth, setAuthState] = useState({
+  const [auth, setAuthState] = useState<AuthState>({
     user: { role: null, id: null },
-    accessToken:  null,
+    accessToken: null,
   });
 
   useEffect(() => {

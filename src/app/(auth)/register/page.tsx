@@ -39,6 +39,7 @@ const formSchema = z
   });
 
 export default function RegisterPage() {
+
   //  Hide and unHide passwords
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -102,6 +103,7 @@ export default function RegisterPage() {
           url: "/auth/register",
           data: rest,
         });
+        // If response is Ok, show dialog and procceed to login
         if (response.status === 201) {
           const { user } = response.data;
           setDialogMessage(
@@ -126,7 +128,7 @@ export default function RegisterPage() {
       }
     });
   }
-  // Cl9se the dialog
+  // Close the dialog
   const closeDialog = () => {
     setIsDialogOpen(false);
     router.push("/");
@@ -134,6 +136,7 @@ export default function RegisterPage() {
 
   return (
     <div className="h-screen flex items-center justify-center relative">
+      {/* Dialog Box and its animation */}
       {isDialogOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-10 flex items-center justify-center">
           <motion.div
@@ -165,6 +168,7 @@ export default function RegisterPage() {
           </motion.div>
         </div>
       )}{" "}
+      {/* Card to hold register form */}
       <Card className="w-[350px]">
         <CardHeader>
           <CardTitle>Register</CardTitle>
@@ -177,7 +181,7 @@ export default function RegisterPage() {
                 <FormFeild
                   key={inputFeild.label}
                   control={form.control}
-                  name={inputFeild.name}
+                  name={inputFeild.name as "email" | "password"| "userName"  }
                   label={inputFeild.label}
                   placeholder={inputFeild.placeholder}
                   type={inputFeild.type}

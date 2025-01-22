@@ -22,13 +22,16 @@ import { useState } from "react";
 import { useAuth } from "@/context/AuthProvider";
 import { jwtDecode } from "jwt-decode";
 import { Payload } from "@/middleware";
+
 // Zod form Schema
 const formSchema = z.object({
   email: z.string().email("Invalid email address").min(1, "Email is required"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
+
 export default function LoginPage() {
+  //  useState for show password, router, toast, transition, auth context
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const { setAuth } = useAuth();
@@ -69,6 +72,7 @@ export default function LoginPage() {
           url: "/auth/login",
           data: values,
         });
+        // if response is created or request is successfull update the auth context and redirect to chat room page
         if (response.status === 200) {
           const decodedToken: Payload = jwtDecode(response.data.accessToken);
           setAuth({
@@ -81,10 +85,12 @@ export default function LoginPage() {
             variant: "default",
           });
           router.push("/chat_room");
+          // If request is failed show error message
         } else {
           const errorData = response.data;
           throw new Error(errorData.message || "Something went wrong");
         }
+        // Catch errors while sending requests
       } catch (error: unknown) {
         const errorMessage =
           (error as { response?: { data?: { message?: string } } }).response
@@ -100,6 +106,7 @@ export default function LoginPage() {
 
   return (
     <div className="h-screen flex items-center justify-center">
+      {/* Card to hold login form */}
       <Card className="w-[350px]">
         <CardHeader>
           <CardTitle>Login</CardTitle>
@@ -108,16 +115,14 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {/* Login Form */}
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4"
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               {inputFormFeilds.map((inputFeild) => (
                 <FormFeild
                   key={inputFeild.label}
                   control={form.control}
-                  name={inputFeild.name}
+                  name={inputFeild.name as "email" | "password"}
                   label={inputFeild.label}
                   placeholder={inputFeild.placeholder}
                   type={inputFeild.type}
