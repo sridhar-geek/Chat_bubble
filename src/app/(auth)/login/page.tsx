@@ -13,9 +13,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
-import FormFeild from "@/components/FormFeild";
+import FormFeild from "@/components/Form/FormFeild";
 import { useToast } from "@/hooks/use-toast";
-import Spinner from "@/components/Spinner";
+import Spinner from "@/components/Loading/Spinner";
 import { useTransition } from "react";
 import { axiosInstance } from "@/lib/utils";
 import { useState } from "react";
@@ -28,7 +28,6 @@ const formSchema = z.object({
   email: z.string().email("Invalid email address").min(1, "Email is required"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
-
 
 export default function LoginPage() {
   //  useState for show password, router, toast, transition, auth context

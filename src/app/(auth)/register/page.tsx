@@ -15,9 +15,9 @@ import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import FormFeild from "@/components/FormFeild";
+import FormFeild from "@/components/Form/FormFeild";
 import { axiosInstance } from "@/lib/utils";
-import Spinner from "@/components/Spinner";
+import Spinner from "@/components/Loading/Spinner";
 import { motion } from "framer-motion";
 
 // Zod Schema
@@ -39,7 +39,6 @@ const formSchema = z
   });
 
 export default function RegisterPage() {
-
   //  Hide and unHide passwords
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -181,7 +180,7 @@ export default function RegisterPage() {
                 <FormFeild
                   key={inputFeild.label}
                   control={form.control}
-                  name={inputFeild.name as "email" | "password"| "userName"  }
+                  name={inputFeild.name as "email" | "password" | "userName"}
                   label={inputFeild.label}
                   placeholder={inputFeild.placeholder}
                   type={inputFeild.type}

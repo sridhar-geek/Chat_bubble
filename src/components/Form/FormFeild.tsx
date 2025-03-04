@@ -9,7 +9,7 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Control } from "react-hook-form";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { FieldValues, ControllerRenderProps, Path } from "react-hook-form";

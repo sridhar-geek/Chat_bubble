@@ -1,5 +1,7 @@
 "use client";
 
+/** It is a React component that provides authentication context (accessToken, userRole, userId) to its children. */
+
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 

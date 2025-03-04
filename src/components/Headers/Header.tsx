@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ModeToggle } from "./Toggle-Btn";
+import { ModeToggle } from "@/components/ColorMode/Toggle-Btn"
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { axiosInstance } from "@/lib/utils";
