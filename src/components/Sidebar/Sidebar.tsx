@@ -27,7 +27,7 @@ const Sidebar = () => {
   const { setIsMessageBarOpen, isMessageBarOpen } = useMessageBar();
 
   return (
-    <div className="flex gap-2">
+    <div className="flex">
       {/* Sidebar */}
       <div className="flex flex-col justify-between items-center py-8 min-h-screen bg-gray-900 text-white w-16">
         {/* Top: Message Icon */}

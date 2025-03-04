@@ -6,7 +6,6 @@ import { useMessageBar } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { UserProps } from "@/lib/types";
 
-
 const MessageProfile = ({ user }: UserProps) => {
   const router = useRouter();
   const { setIsMessageBarOpen } = useMessageBar();
@@ -27,13 +26,15 @@ const MessageProfile = ({ user }: UserProps) => {
         alt="userAvatar"
         className="rounded-full"s
       /> */}
-      <div className ="relative inline-flex">
+      <div className="relative inline-flex">
         <Image
           src={user.avatar}
           alt="avatar"
-          className ="inline-block relative object-cover object-center rounded-full w-12 h-12"
+          width={50}
+          height={50}
+          className="inline-block relative object-cover object-center rounded-full"
         />
-        <span className ="absolute min-w-[12px] min-h-[12px] rounded-full py-1 px-1 text-xs font-medium content-[''] leading-none grid place-items-center bottom-[14%] right-[14%] translate-x-2/4 translate-y-2/4 bg-red-500 text-white border border-white"></span>
+        <span className={`absolute min-w-[12px] min-h-[12px] rounded-full py-1 px-1 text-xs font-medium content-[''] leading-none grid place-items-center bottom-[14%] right-[14%] translate-x-2/4 translate-y-2/4 text-white border border-white ${user.status === "online" ? 'bg-green-600 ' : 'bg-red-700'}`}></span>
       </div>
       <div className="flex flex-col gap-3">
         <h3 className="font-semibold text-lg">{user.name}</h3>
