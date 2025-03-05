@@ -83,7 +83,7 @@ export default function LoginPage() {
             description: `Welcome ${response.data.user.userName}`,
             variant: "default",
           });
-          router.push("/chat_room");
+          router.push("/logged_user");
           // If request is failed show error message
         } else {
           const errorData = response.data;

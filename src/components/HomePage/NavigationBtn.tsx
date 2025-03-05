@@ -9,7 +9,7 @@ const NavigationBtn = () => {
   return (
     <Button
       className="px-4 py-2  transition-colors"
-      onClick={() => router.push("/logged_user/chat_room")}
+      onClick={() => router.push("/logged_user")}
     >
       Start Chatting Now
     </Button>
