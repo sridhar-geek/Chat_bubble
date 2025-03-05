@@ -16,7 +16,7 @@ import { FieldValues, ControllerRenderProps, Path } from "react-hook-form";
 
 interface CustomProps<T extends FieldValues> {
   control: Control<T>;
-  label: string;
+  label?: string;
   name: Path<T>;
   type: string;
   placeholder: string;
